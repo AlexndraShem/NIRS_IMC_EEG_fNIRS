@@ -1,0 +1,10 @@
+services:
+  solve:
+    build: .
+    volumes:
+      - ${DATA_DIR:-./data}:/data:ro
+      - ${OUT_DIR:-./results/metrics}:/out
+    # пример:
+    # DATA_DIR=/home/jupyter/s3/train OUT_DIR=./results/metrics \
+    #   docker compose run --rm solve --input /data/session.mat --output-dir /out
+    command: ["--input", "/data/session.mat", "--output-dir", "/out"]

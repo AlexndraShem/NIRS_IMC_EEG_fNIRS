@@ -1,0 +1,13 @@
+# Строгие пины (Python 3.11, Linux x86_64). Офлайн-установка из колёс репозитория:
+#   pip install --no-index --find-links wheels -r requirements.txt
+numpy==1.26.4
+scipy==1.15.2
+scikit-learn==1.2.2
+joblib==1.5.1
+threadpoolctl==3.6.0
+# нужен только официальному score.py (+ его зависимости, тоже в wheels/)
+pandas==2.2.3
+python-dateutil==2.9.0.post0
+pytz==2025.2
+tzdata==2025.2
+six==1.17.0

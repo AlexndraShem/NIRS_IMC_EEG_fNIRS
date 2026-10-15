@@ -1,0 +1,113 @@
+{
+  "eeg_model": "artifact_guard:EEGArtifactGuard",
+  "nirs_model": "nirs_model:NirsCascadeEns",
+  "eeg": {
+    "win_s": 2.0,
+    "chans": "all",
+    "shrinkage": 0.8,
+    "alpha": 0.8,
+    "ref_stride": 8,
+    "train_stride": 4,
+    "eig_threads": 1,
+    "pool_file": "eeg_pool.npz",
+    "subject_pool_dir": "eeg_subj",
+    "subject_weight": 0.3,
+    "max_train": 400,
+    "base_alpha": [
+      0.9,
+      0.7
+    ],
+    "expert_alpha": [
+      0.8,
+      0.5
+    ],
+    "expert_win_s": 4.0,
+    "expert_pools": {
+      "nb": "eeg_lrnb_pool.npz",
+      "sm4": "eeg_lrsm4_pool.npz"
+    },
+    "expert_subject_dirs": {
+      "nb": "eeg_lrnb_subj",
+      "sm4": "eeg_lrsm4_subj"
+    },
+    "inner_model": "eeg_model:EEGLRExperts",
+    "dl": {
+      "files": [
+        "eeg_dl_0.npz",
+        "eeg_dl_1.npz",
+        "eeg_dl_2.npz",
+        "eeg_dl_3.npz"
+      ],
+      "weight": 0.3,
+      "a": 0.5
+    },
+    "guard_inner_model": "eeg_dl:EEGWithDL",
+    "guard": {
+      "enabled": true,
+      "thr": 0.7,
+      "mode": "hold",
+      "hold_tau_s": 4.0,
+      "lookback_s": 1.0,
+      "exclude_train": true,
+      "band": [
+        31.0,
+        46.0
+      ],
+      "notches": [
+        37.5,
+        50.0
+      ],
+      "q": 0.2,
+      "hist_s": 300.0,
+      "min_hist_s": 10.0
+    }
+  },
+  "nirs": {
+    "train_stride": 2,
+    "fit_every": 1,
+    "subject_pool_dir": "nirs_subj",
+    "pool_weight_rt": 0.5,
+    "pool_weight_lr": 0.5
+  },
+  "fusion": "fusion_stacked:StackedFusion",
+  "fusion_params": {
+    "eeg_weight": 0.55,
+    "prior": [
+      0.0,
+      3.5,
+      3.5
+    ],
+    "tau_s": 1.5,
+    "nirs_prior": [
+      0.0,
+      1.0,
+      1.0
+    ],
+    "nirs_tau_s": 0.0,
+    "hier_tau_s": [
+      0.75,
+      2.0
+    ]
+  },
+  "win_s": 1.0,
+  "blas_threads": 1,
+  "loso_pool_pattern": "pool_ts2s_all_{subject}.npz",
+  "fusion_params_subject": {
+    "eeg_weight": 0.5,
+    "prior": [
+      0.0,
+      3.5,
+      3.5
+    ]
+  },
+  "loso_extra_pools": {
+    "eeg_lrnb_pool.npz": "pool_lrnb_{subject}.npz",
+    "eeg_lrsm4_pool.npz": "pool_lrsm4_{subject}.npz",
+    "fusion_meta.json": "fusion_meta_{subject}.json",
+    "eeg_dl_0.npz": "pool_dl0_{subject}.npz",
+    "eeg_dl_1.npz": "pool_dl1_{subject}.npz",
+    "eeg_dl_2.npz": "pool_dl2_{subject}.npz",
+    "eeg_dl_3.npz": "pool_dl3_{subject}.npz"
+  },
+  "fusion_meta_file": "fusion_meta.json"
+}
